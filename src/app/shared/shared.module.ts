@@ -14,31 +14,29 @@ import { ImgBrokenDirective } from './directives/img-broken.directive';
 
 
 @NgModule({
-  declarations: [
-    SideBarComponent,
-    MediaPlayerComponent,
-    HeaderUserComponent,
-    CardPlayerComponent,
-    SectionsGenericComponent,
-    PlayListHeaderComponent,
-    PlayListBodyComponent,
-    OrderListPipe,
-    ImgBrokenDirective
-  ],
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  exports: [
-    SideBarComponent,
-    MediaPlayerComponent,
-    HeaderUserComponent,
-    CardPlayerComponent,
-    SectionsGenericComponent,
-    PlayListHeaderComponent,
-    PlayListBodyComponent,
-    OrderListPipe,
-    ImgBrokenDirective
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        SideBarComponent,
+        MediaPlayerComponent,
+        HeaderUserComponent,
+        CardPlayerComponent,
+        SectionsGenericComponent,
+        PlayListHeaderComponent,
+        PlayListBodyComponent,
+        OrderListPipe,
+        ImgBrokenDirective
+    ],
+    exports: [
+        SideBarComponent,
+        MediaPlayerComponent,
+        HeaderUserComponent,
+        CardPlayerComponent,
+        SectionsGenericComponent,
+        PlayListHeaderComponent,
+        PlayListBodyComponent,
+        OrderListPipe,
+        ImgBrokenDirective
+    ]
 })
 export class SharedModule { }

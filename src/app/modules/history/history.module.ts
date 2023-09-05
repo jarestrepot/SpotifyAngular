@@ -9,15 +9,13 @@ import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [
-    HistoryPageComponent,
-    SearchComponent
-  ],
-  imports: [
-    CommonModule,
-    HistoryRoutingModule,
-    SharedModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        HistoryRoutingModule,
+        SharedModule,
+        FormsModule,
+        HistoryPageComponent,
+        SearchComponent,
+    ]
 })
 export class HistoryModule { }

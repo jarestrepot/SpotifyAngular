@@ -10,9 +10,8 @@ describe('AuthPageComponent Testing 👻', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ReactiveFormsModule],
-      declarations: [AuthPageComponent]
-    });
+    imports: [HttpClientTestingModule, ReactiveFormsModule, AuthPageComponent]
+});
     fixture = TestBed.createComponent(AuthPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

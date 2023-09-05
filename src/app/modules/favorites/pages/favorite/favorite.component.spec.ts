@@ -8,9 +8,8 @@ describe('FavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
-      declarations: [FavoriteComponent]
-    });
+    imports: [SharedModule, FavoriteComponent]
+});
     fixture = TestBed.createComponent(FavoriteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,13 +7,11 @@ import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
-  declarations: [
-    FavoriteComponent
-  ],
-  imports: [
-    CommonModule,
-    FavoritesRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        FavoritesRoutingModule,
+        SharedModule,
+        FavoriteComponent
+    ]
 })
 export class FavoritesModule { }

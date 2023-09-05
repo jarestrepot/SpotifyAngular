@@ -8,9 +8,8 @@ describe('HomePagesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, RouterTestingModule],
-      declarations: [HomePagesComponent]
-    });
+    imports: [SharedModule, RouterTestingModule, HomePagesComponent]
+});
     fixture = TestBed.createComponent(HomePagesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

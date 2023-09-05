@@ -6,7 +6,8 @@ import { By } from '@angular/platform-browser';
 
 // Crear el componente de prueba
 @Component({
-  template: '<img appImgBroken class="test-imgBroken" [src]="srcMock" >'
+    template: '<img appImgBroken class="test-imgBroken" [src]="srcMock" >',
+    standalone: true
 })
 class TesteComponent {
   public srcMock = undefined;
@@ -22,8 +23,8 @@ describe('Directive IMAGEN BROKEN 🧷', () => {
   // Declaramos los valores que vamos a utilizar en el Test
   beforeEach(()=>{
     TestBed.configureTestingModule({
-      declarations: [TesteComponent, ImgBrokenDirective]
-    })
+    imports: [TesteComponent, ImgBrokenDirective]
+})
 
     fixture = TestBed.createComponent(TesteComponent);
     component = fixture.componentInstance;

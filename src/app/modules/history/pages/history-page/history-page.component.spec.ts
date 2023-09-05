@@ -11,9 +11,8 @@ describe('HistoryPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, SharedModule, FormsModule],
-      declarations: [HistoryPageComponent, SearchComponent]
-    });
+    imports: [HttpClientTestingModule, SharedModule, FormsModule, HistoryPageComponent, SearchComponent]
+});
     fixture = TestBed.createComponent(HistoryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
