@@ -8,12 +8,14 @@ describe('AuthPageComponent Testing 👻', () => {
   let component: AuthPageComponent;
   let fixture: ComponentFixture<AuthPageComponent>;
 
+
   beforeEach(() => {
     TestBed.configureTestingModule({
     imports: [HttpClientTestingModule, ReactiveFormsModule, AuthPageComponent]
 });
     fixture = TestBed.createComponent(AuthPageComponent);
     component = fixture.componentInstance;
+    // Jasmine no detecta los cambios del DOM, para eso esta función
     fixture.detectChanges();
   });
 
@@ -32,6 +34,7 @@ describe('AuthPageComponent Testing 👻', () => {
     // Act (Actuar)
     const emailForm: any = component.formLogin.get('email');
     const passwordForm: any = component.formLogin.get('password');
+
     emailForm.setValue(mockEmail.email);
     passwordForm.setValue(mockEmail.password);
     // Assert (Afirmar)

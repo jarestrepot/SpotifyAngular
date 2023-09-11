@@ -11,16 +11,6 @@ import { NgFor, NgClass } from '@angular/common';
 })
 export class SideBarComponent implements OnInit, OnDestroy {
 
-  // linksMenu:Array<any> =[
-  //   {
-  //     name: "Home",
-  //     icon: "uil-home"
-  //   },
-  //   {
-  //     name: "Seach",
-  //     icon: "uil-home"
-  //   }
-  // ];
 
   mainMenu: {
     defaultOptions: Array<any>, accessLink: Array<any>

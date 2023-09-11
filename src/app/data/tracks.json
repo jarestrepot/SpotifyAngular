@@ -126,6 +126,23 @@
                 "end": 333
             },
             "url": "http://localhost:3000/track-7.mp3"
+        },
+        {
+          "_id": 9,
+          "name": "Something in the way",
+          "album": "Nirvana (NeverLand)",
+          "cover": "https://www.neo2.com/wp-content/uploads/2021/08/spencer-elden-nirvana-bebe-nevermind-hoy-1991.jpg",
+          "artist": {
+              "name": "Nirvana",
+              "nickname": "Nirvana",
+              "nationality": "US"
+          },
+          "duration": {
+              "start": 0,
+              "end": 351
+          },
+          "url": "http://localhost:3000/track-8.mp3",
+          "gender": "Rock and Roll"
         }
     ]
 }

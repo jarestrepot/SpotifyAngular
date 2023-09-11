@@ -18,7 +18,7 @@
 <!-- ZONE TEMPLATES -->
 
 <ng-template #artistZone>
-  <div class="artist-inside" *ngIf="multiMediaService.trackInfo$| async as mockCover">
+  <div class="artist-inside" *ngIf="multiMediaService.trackInfoSignal() as mockCover">
     <img [src]="mockCover.cover" alt="" class="cover">
     <div class="track-info">
       <h3 class="track-title">{{mockCover.name}}</h3>
@@ -53,11 +53,11 @@
     </div>
     <div class="media-linetime">
 
-      <div class="time">{{multiMediaService.timeElapsed$ | async}}</div>
+      <div class="time">{{multiMediaService.timeElapsedSignal()}}</div>
       <span #progressBar (click)="handlePosition($event)" class="time-progress">
         <span
           class="time-progress-live"
-          [style.width]="(multiMediaService.playerPercentage$ | async)+'%'"
+          [style.width]="(multiMediaService.playerPercentageSignal())+'%'"
         >
           <span
             #ballProgress class="progress-ball" [style.marginLeft]="(marginBall)+'px'"
@@ -68,7 +68,7 @@
           </span>
         </span>
       </span>
-      <div class="time">{{multiMediaService.timeRemaining$ | async}}</div>
+      <div class="time">{{multiMediaService.timeRemainingSignal()}}</div>
     </div>
   </div>
 </ng-template>

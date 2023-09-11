@@ -25,8 +25,7 @@ export class AuthService {
         const { tokenSession, data } = response;
         this.cookie.set('token_service', tokenSession, 4, '/');
       }),
-      catchError((error)=>{
-        console.log(error); // Enviar el error al stack
+      catchError((error)=>{ // Enviar el error al stack
         return of()
       })
     );

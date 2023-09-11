@@ -1,14 +1,10 @@
 
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
 
 
-export const sessionGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  return checkCookieSession();
-}
-
-const checkCookieSession = async () => {
+export const checkCookieSessionGuard = async (): Promise<Boolean> => {
   try {
     // Inyección de dependencias
     const cookieToken:string = inject(AuthService).getToken();

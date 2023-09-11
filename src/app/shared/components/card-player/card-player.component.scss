@@ -12,6 +12,7 @@
 
 .card-player:hover {
   background-color: #4d4d4d;
+  
 }
 
 .card-player .cover {
@@ -77,6 +78,10 @@
 .card-player.player-big .content-player .sub-title-track {
   font-size: 80%;
   opacity: .7;
+}
+.card-player.player-small .content-player{
+  font-size: 0.85rem;
+  text-align: left;
 }
 
 .card-player.player-big .buttons-player {

@@ -15,6 +15,7 @@ export class TrackService {
   private readonly URL = enviroment.api;
 
   constructor(private http: HttpClient) {}
+
   /**
    *
    * @returns Devuelve todas las canciones! 😎🤘🏽
@@ -37,7 +38,7 @@ export class TrackService {
    */
   getAllReverse$(): Observable<TrackModel[]> {
     return this.http.get<TrackModel[]>(`${this.URL}/tracks`).pipe(
-      map(({ data }: any) => {
+      map(({ data }: any ) => {
         return data.reverse();
       }),
       catchError((error) => {

@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, effect, signal } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
-import { BehaviorSubject, Observable, Observer, Subject } from 'rxjs';
+// import { BehaviorSubject, Observable, Observer, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,37 +8,35 @@ import { BehaviorSubject, Observable, Observer, Subject } from 'rxjs';
 export class MultimediaService {
 
   callback: EventEmitter<any> = new EventEmitter<any>();
+  public audioTrack!: HTMLAudioElement;
 
   // TODO: Tener siempre un valor el ultimo escuchado segun el usuario.
-  public trackInfo$: BehaviorSubject<any> = new BehaviorSubject(undefined);
-  public audioTrack!: HTMLAudioElement;
-  public timeElapsed$: BehaviorSubject<string> = new BehaviorSubject('00:00');
-  public timeRemaining$: BehaviorSubject<string> = new BehaviorSubject('-00:00');
-  public playerStatus$: BehaviorSubject<string> = new BehaviorSubject('paused');
-  public playerPercentage$:BehaviorSubject<number> = new BehaviorSubject(0);
+  // public trackInfo$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+  public trackInfoSignal = signal<TrackModel | undefined>(undefined);
+
+  // public timeElapsed$: BehaviorSubject<string> = new BehaviorSubject('00:00');
+  public timeElapsedSignal = signal<string>('00:00');
+
+  // public timeRemaining$: BehaviorSubject<string> = new BehaviorSubject('-00:00');
+  public timeRemainingSignal = signal<string>('-00:00')
+
+  // public playerStatus$: BehaviorSubject<string> = new BehaviorSubject('paused');
+  public playerStatusSignal = signal<string>('paused')
+
+  // public playerPercentage$:BehaviorSubject<number> = new BehaviorSubject(0);
+  public playerPercentageSignal = signal<number>(0)
 
   constructor() {
     this.audioTrack = new Audio();
-    this.trackInfo$.subscribe(
-      {
-        next: (response:TrackModel) => {
-          if(response) {
-            // LLamamos a la función para manejar el audio.
-            this.setAudio(response);
-          }
-          // throw new Error('Upps no ha servido el servicio ⚠️💻');
-        },
-        error: (error:any) => {
-          alert(error.message);
-        }
-      }
-    );
 
-    // ?? Escuchadora de eventos
+    effect(() => {
+      const dataInfo: TrackModel | undefined = this.trackInfoSignal();
+      if (dataInfo) { this.setAudio(dataInfo);}
+    })
+
+    // ?? Event listener
     this.listAllEvents();
   }
-
-
 
   private listAllEvents(): void {
     this.audioTrack.addEventListener('timeupdate', this.calculeTime ,false);
@@ -52,16 +50,16 @@ export class MultimediaService {
   private setPlayerStatus = (status:any):void => {
     switch (status.type){
       case 'play':
-        this.playerStatus$.next('play');
+        this.playerStatusSignal.set('play');
         break;
       case 'playing':
-        this.playerStatus$.next('playing');
+        this.playerStatusSignal.set('playing');
         break;
       case 'ended':
-        this.playerStatus$.next('ended');
+        this.playerStatusSignal.set('ended');
         break;
       default:
-        this.playerStatus$.next('paused');
+        this.playerStatusSignal.set('paused');
         break;
     }
   }
@@ -84,7 +82,7 @@ export class MultimediaService {
     let displayMinutes = (minutes < 10) ? `0${minutes}` : minutes;
 
 
-    this.timeElapsed$.next(`${displayMinutes}:${displaySeconds}`);
+    this.timeElapsedSignal.set(`${displayMinutes}:${displaySeconds}`);
 
   }
 
@@ -100,10 +98,10 @@ export class MultimediaService {
     let displaySeconds = (seconds < 10) ? `0${seconds}` : seconds;
     let displayMinutes = (minutes < 10) ? `0${minutes}` : minutes;
 
-    this.timeRemaining$.next(`-${displayMinutes}:${displaySeconds}`);
+    this.timeRemainingSignal.set(`-${displayMinutes}:${displaySeconds}`);
 
     // ?? Damos el valor de time con la regla de 3 tiempoTranscurrido * 100 / duracionTotal de la canción
-    this.playerPercentage$.next((currentTime * 100) / durationTotal);
+    this.playerPercentageSignal.set((currentTime * 100) / durationTotal);
   }
 
   public setAudio(track: TrackModel):void {

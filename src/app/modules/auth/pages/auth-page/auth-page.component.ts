@@ -18,6 +18,7 @@ export class AuthPageComponent implements OnInit {
   formLogin: FormGroup = new FormGroup({});
   errorSession:Boolean = false;
   errorMessage:String =  '';
+  
   constructor(private authService: AuthService, private cookie:CookieService, private router:Router){}
 
   ngOnInit(): void {
@@ -41,6 +42,7 @@ export class AuthPageComponent implements OnInit {
     this.authService.sendCredencials(email, password)
     .subscribe({
       next: (result: returnedUserModel) => {
+        console.log(result)
         this.checkToken();
       },
       error:(err) => {
@@ -52,7 +54,7 @@ export class AuthPageComponent implements OnInit {
   }
 
 
-  async checkToken():Promise<void>{
+  async checkToken():Promise<void >{
     const token = this.cookie.check('token_service');
     if(token){
       await this.router.navigate(['/tracks']);

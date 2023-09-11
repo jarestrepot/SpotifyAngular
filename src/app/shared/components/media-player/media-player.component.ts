@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
+import { Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild, effect, inject } from '@angular/core';
 import { MultimediaService } from '@shared/services/multimedia.service';
-import { Subscription } from 'rxjs';
+// import { Subscription } from 'rxjs';
 import { NgTemplateOutlet, NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { destroyObservable } from '@core/utils/destroyCustomObservable';
 
 @Component({
     selector: 'app-media-player',
@@ -11,50 +12,66 @@ import { NgTemplateOutlet, NgIf, NgClass, AsyncPipe } from '@angular/common';
     standalone: true,
     imports: [NgTemplateOutlet, NgIf, NgClass, AsyncPipe]
 })
-export class MediaPlayerComponent implements OnInit, OnDestroy {
+export class MediaPlayerComponent  {
 
   @ViewChild('progressBar') progressBar: ElementRef = new ElementRef('');
   @ViewChild('ballProgress') progressBall: ElementRef = new ElementRef('');
 
-  listObservables: Array<Subscription> = [];
   state:string = 'paused';
   marginBall:number = 0;
+  destroyRef = inject(DestroyRef);
+  customDestroyRef = destroyObservable();
+
+  public multiMediaService  = inject(MultimediaService)
+
+  constructor(){
+
+    effect(()=>{
+      const state = this.multiMediaService.playerStatusSignal();
+      this.state = state;
+    })
+
+    effect(()=>{
+      const playerPercenteage = this.multiMediaService.playerPercentageSignal()
+      const elNative: HTMLElement = this.progressBar.nativeElement;
+      this.marginBall = this.convertPercentageToPixels(playerPercenteage, elNative.offsetWidth);
+    })
+    // this.multiMediaService.playerStatus$
+    //   .pipe(
+    //     // takeUntilDestroyed(this.destroyRef)
+    //     this.customDestroyRef()
+    //   )
+    //   .subscribe(
+    //     {
+    //       next: (statusTrack: string) => {
+    //         this.state = statusTrack
+    //       },
+    //       error: (err: any) => {
+    //         alert(err);
+    //       }
+    //     }
+    //   );
 
 
-  constructor(public multiMediaService: MultimediaService){}
 
-  ngOnInit():void {
-    const observerStatus$ : Subscription = this.multiMediaService.playerStatus$.subscribe(
-      {
-        next: (statusTrack:string) => {
-          this.state = statusTrack
-        },
-        error: (err: any) => {
-          alert(err);
-        }
-      }
-    );
-    const observerWith$ = this.multiMediaService.playerPercentage$.subscribe(
-      {
-        next: (value: number) =>{
-          const elNative: HTMLElement = this.progressBar.nativeElement;
-          this.marginBall = this.convertPercentageToPixels(value, elNative.offsetWidth);
-        },
-        error: (err: any) => {
-          alert(err);
-        }
-      }
-    )
-
-    this.listObservables = [observerStatus$, observerWith$];
+    // this.multiMediaService.playerPercentage$
+    //   .pipe(
+    //     // takeUntilDestroyed(this.destroyRef)
+    //     this.customDestroyRef()
+    //   )
+    //   .subscribe(
+    //     {
+    //       next: (value: number) => {
+    //         const elNative: HTMLElement = this.progressBar.nativeElement;
+    //         this.marginBall = this.convertPercentageToPixels(value, elNative.offsetWidth);
+    //       },
+    //       error: (err: any) => {
+    //         alert(err);
+    //       }
+    //     }
+    //   )
   }
 
-
-  ngOnDestroy(): void {
-    // Recorrido para unsubscribe todos y así no guardar una pila en memoria.
-    this.listObservables.forEach(observable => observable.unsubscribe());
-    //   console.log('💣💣💣💣 Destroy');
-  }
 
   handlePosition(event:MouseEvent):void {
 
@@ -92,3 +109,5 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.handleDrag(event);
   }
 }
+
+

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedModule } from '@shared/shared.module';
+// import { SharedModule } from '@shared/shared.module';
 import { TracksPageComponent } from './tracks-page.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -9,7 +9,7 @@ describe('TracksPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule, SharedModule, TracksPageComponent]
+    imports: [HttpClientTestingModule, TracksPageComponent]
 });
     fixture = TestBed.createComponent(TracksPageComponent);
     component = fixture.componentInstance;

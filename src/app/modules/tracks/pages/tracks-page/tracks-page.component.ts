@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
-import { TrackService } from '@modules/tracks/services/track.service';
+// import { TrackService } from '@modules/tracks/services/track.service';
 import { SectionsGenericComponent } from '../../../../shared/components/sections-generic/sections-generic.component';
-// import { TracksModule } from '@modules/tracks/tracks.module';
-// import { Observable, Subscription } from 'rxjs';
+import { getAllReverse$, getAllTracks$ } from '@modules/tracks/services/trackController.service';
+import { CurrentUserModel } from '@core/models/currentUser';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -11,52 +12,36 @@ import { SectionsGenericComponent } from '../../../../shared/components/sections
     templateUrl: './tracks-page.component.html',
     styleUrls: ['./tracks-page.component.scss'],
     standalone: true,
-    imports: [SectionsGenericComponent]
+    imports: [SectionsGenericComponent, CommonModule]
 })
-export class TracksPageComponent implements OnInit, OnDestroy {
+export class TracksPageComponent {
+
+  @Input() currentUser: CurrentUserModel | any ;
 
   tracksTrending: Array<TrackModel> = [];
   tracksReverse: Array<TrackModel> = [];
-  // listObserves$: Array<Subscription> = [];
 
-  constructor(private trackService: TrackService){
-  }
+  constructor(){
 
-  ngOnInit(): void {
-    this.getAllTracks();
-
-    this.getReverseTracks();
-    // this.listObserves$ = [subcriptionTracks$, subcriptionReverseTracks$];
-  }
-
-  async getRandomTracks(): Promise<TrackModel[]>{
-    return await this.trackService.getAllRandom$().toPromise();
-  }
-
-  getAllTracks(): void{
-    this.trackService.getAllTracks$().subscribe(
+    getAllTracks$().subscribe(
       (response: TrackModel[]) => {
         this.tracksTrending = response;
-      }
-    );
-  }
+      });
 
-  getReverseTracks(): void{
-    this.trackService.getAllReverse$().subscribe(
-      {
-        next: (response: TrackModel[]) => {
-          this.tracksReverse = response;
-        },
-        error: (error: Error) => {
-          // console.log(error);
-        },
-        complete: () => {
-          // console.log("complete");
+    getAllReverse$().subscribe(
+        {
+          next: (response: TrackModel[]) => {
+            this.tracksReverse = response;
+          },
+          error: (error: Error) => {
+            // console.log(error);
+          },
+          complete: () => {
+            // console.log("complete");
+          }
         }
-      }
-    );
-  }
-  ngOnDestroy(): void {
-    // this.listObserves$.forEach(observer => observer.unsubscribe());
+      );
+
+
   }
 }

@@ -1,6 +1,7 @@
 
 import { Routes } from '@angular/router';
-import { sessionGuard } from '@core/guards/session.guard';
+import { checkCookieSessionGuard } from '@core/guards/session.guard';
+// import { sessionGuard } from '@core/guards/session.guard';
 import { HomePagesComponent } from '@modules/home/pages/home-pages/home-pages.component';
 
 export const appRoutes: Routes = [
@@ -13,7 +14,7 @@ export const appRoutes: Routes = [
     component: HomePagesComponent,
     loadChildren: () => import(`./modules/home/home.routes`).then(routing => routing.homeRoutes),
     canActivate:[
-      sessionGuard
+      checkCookieSessionGuard
     ]
   }
 ];

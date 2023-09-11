@@ -11,7 +11,7 @@ export class ImgBrokenDirective {
     const elNative = this.elHost.nativeElement;
     // elNative.style.display = 'none';
     // elNative.src = '../../../assets/images/img-broken-request.jpg';
-    elNative.src = this.imagenDefault ?? '../../../assets/images/img-broken-request.jpg';
+    elNative.src = this.imagenDefault ?? '/assets/images/img-broken-request.jpg';
   }
   constructor(private elHost: ElementRef) { }
 
